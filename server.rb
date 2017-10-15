@@ -3,6 +3,9 @@ require 'sinatra'
 require 'json'
 require './process.rb'
 
+set :bind, '0.0.0.0'
+set :port, 3001
+
 get '/pingtest', provides: :json do
   params = JSON.parse request.body.read
   if params['id'].nil? then
