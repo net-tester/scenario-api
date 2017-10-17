@@ -13,6 +13,11 @@ get '/pingtest', provides: :json do
     code = 400
   else
     result = CucumberProcess.find(params['id'].to_i)
+    if result.nil?
+      code = 404
+    else
+      code = 200
+    end
   end
   status code
   body result.to_json
