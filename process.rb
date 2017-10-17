@@ -76,21 +76,18 @@ class CucumberProcess
   end
 
   def to_json
-    begin
-      if @stdout == ""
-        out = ""
-      else
-        out = JSON.parse(@stdout)
-      end
-      err = @stderr
-    rescue => e
-      err = e
-    end
     res = {"id": @id,
            "status": @status,
-           "stdout": out,
-           "stderr": err
+           "stdout": @stdout,
+           "stderr": @stderr
           }
+    begin
+      if @stdout != ""
+        res["result"] = JSON.parse(@stdout)
+      end
+    rescue => e
+      res["result_error"] = e
+    end
     res.to_json
   end
 end
