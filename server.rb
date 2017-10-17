@@ -25,9 +25,11 @@ end
 
 post '/pingtest', provides: :json do
   params = JSON.parse request.body.read
-  res = {id:params['vlan_id']}
   process = CucumberProcess.new()
   command = "pingtest " + params['vlan_id'] + " " + params['sites'].join(" ")
+  if !params['dry-run'].nil? && params['dry-run'].to_i != 0
+    command = command + " DRY"
+  end
   process.exec(command)
   status 200
   body process.to_json

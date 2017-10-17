@@ -11,7 +11,8 @@
   * 例： `{"id":"1"}`
 * POST /pingtest
   * vlan_id: テスト対象VLAN番号、数値、必須
-  * sites: テスト対象の拠点一覧、文字列の配列、必須、DRYとかも書いていい
+  * sites: テスト対象の拠点一覧、文字列の配列、必須
+  * dry-run: 0ではない値が指定されたときテスト内容をdry-runする、数値、省略可
   * 例: `{"vlan_id":"2002", "sites":["@hnd0", "@oka0"]}`
 
 # response data
