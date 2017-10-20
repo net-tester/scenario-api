@@ -6,8 +6,7 @@ require './process.rb'
 set :bind, '0.0.0.0'
 set :port, 3001
 
-get '/pingtest', provides: :json do
-  params = JSON.parse request.body.read
+get '/pingtest' do
   if params['id'].nil? then
     result = {error: "parameter 'id' is required"}
     code = 400
@@ -20,7 +19,9 @@ get '/pingtest', provides: :json do
     end
   end
   status code
-  body result.to_json
+  if code == 200
+    body result.to_json
+  end
 end
 
 post '/pingtest', provides: :json do

@@ -6,9 +6,8 @@
 
 # request data
 * Contents-type: application/json
-* GET /pingtest
+* GET /pingtest?id=1
   * id: プロセス番号、数値、必須
-  * 例： `{"id":"1"}`
 * POST /pingtest
   * vlan_id: テスト対象VLAN番号、数値、必須
   * sites: テスト対象の拠点一覧、文字列の配列、必須
