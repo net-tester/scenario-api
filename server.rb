@@ -1,6 +1,8 @@
 # coding: utf-8
 require 'sinatra'
 require 'json'
+require 'active_support'
+require 'active_support/core_ext'
 require './process.rb'
 
 set :bind, '0.0.0.0'
@@ -14,6 +16,8 @@ get '/pingtest' do
     result = CucumberProcess.find(params['id'].to_i)
     if result.nil?
       code = 404
+    elsif result.stderr.present?
+      code = 503
     else
       code = 200
     end
