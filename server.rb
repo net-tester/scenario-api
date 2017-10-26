@@ -15,17 +15,17 @@ get '/pingtest' do
   else
     result = CucumberProcess.find(params['id'].to_i)
     if result.nil?
+      result = {error: "item #{params['id']} not found"}
       code = 404
     elsif result.stderr.present?
+      result = {error: "an error occured: '#{result.stderr}'"}
       code = 503
     else
       code = 200
     end
   end
   status code
-  if code == 200
-    body result.to_json
-  end
+  body result.to_json
 end
 
 post '/pingtest', provides: :json do
