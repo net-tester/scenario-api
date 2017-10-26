@@ -31,11 +31,26 @@ end
 post '/pingtest', provides: :json do
   params = JSON.parse request.body.read
   process = CucumberProcess.new()
-  command = "pingtest " + params['vlan_id'] + " " + params['sites'].join(" ")
-  if !params['dry-run'].nil? && params['dry-run'].to_i != 0
-    command = command + " DRY"
+
+  if params['vlan_id'].blank?
+    result = {error: "parameter 'vlan_id' is required"}
+    status 400
+    body result.to_json
+  elsif params['sites'].blank?
+    result = {error: "parameter 'sites' is required"}
+    status = 400
+    body result.to_json
+  elsif !params['sites'].instance_of?(Array)
+    result = {error: "parameter 'sites' must be an array"}
+    status = 400
+    body result.to_json
+  else
+    command = "pingtest " + params['vlan_id'].to_s + " " + params['sites'].join(" ")
+    if !params['dry-run'].nil? && params['dry-run'].to_i != 0
+      command = command + " DRY"
+    end
+    process.exec(command)
+    status 200
+    body process.to_json
   end
-  process.exec(command)
-  status 200
-  body process.to_json
 end
